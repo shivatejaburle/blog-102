@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,9 +10,9 @@
                 
             {% endblock title %}
         </title>
+        <link rel="shortcut icon" href="{% static 'home/img/favicon.ico' %}" type="image/x-icon">
         <!-- Bootstrap CSS -->
         {% bootstrap_css %}
-        
     </head>
     <body>
         <!-- Navbar -->

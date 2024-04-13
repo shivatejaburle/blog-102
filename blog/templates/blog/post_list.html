@@ -13,7 +13,10 @@
             <h1>Feed</h1>
           </div>
           <div class="col-6">
-            <button type="button" class="btn btn-primary btn-lg float-end"><i class="bi bi-plus-square"></i> Create Post</button>
+            <button type="button" class="btn btn-primary btn-lg float-end"
+                onclick = "window.location='{% url 'blog:post_create' %}'">
+              <i class="bi bi-plus-square"></i> Create Post
+            </button>
           </div>
         </div>
         <hr>
@@ -31,9 +34,15 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <a href="{% url 'blog:post_detail' post.id %}" class="btn btn-outline-primary btn-sm"><i class="bi bi-view-list"></i> View Post</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="bi bi-pencil-square"></i> Edit Post</a>
-                        <a href="#" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i> Delete Post</a>
+                        <a href="{% url 'blog:post_detail' post.id %}" class="btn btn-outline-primary btn-sm">
+                          <i class="bi bi-view-list"></i> View Post
+                        </a>
+                        <a href="{% url 'blog:post_update' post.id %}" class="btn btn-outline-secondary btn-sm">
+                          <i class="bi bi-pencil-square"></i> Edit Post
+                        </a>
+                        <a href="#" class="btn btn-outline-danger btn-sm">
+                          <i class="bi bi-trash3"></i> Delete Post
+                        </a>
                     </li>
                     <li class="list-group-item"><span class="fw-bold">Post Date : </span>{{post.created_at|date}}</li>
                     <li class="list-group-item"><span class="fw-bold">Author : </span>&lt;Author_Name&gt;</li>

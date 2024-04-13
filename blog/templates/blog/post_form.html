@@ -1,0 +1,35 @@
+{% extends 'base_master.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Create a New Post
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3">
+        
+        {% if form_type == 'Update' %}
+            <h1>Update a Post</h1>
+        {% else %}
+            <h1>Create a New Post</h1>
+        {% endif %}
+        <hr>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+
+            <button type="submit" class="btn btn-primary">
+                {% if form_type == 'Update' %}
+                    Update Post
+                {% else %}
+                    Create Post
+                {% endif %}
+           </button>
+            <button type="button" class="btn btn-danger" 
+                onclick="window.location='{% url 'blog:post_list' %}'">Cancel</button>
+        </form>
+    </div>
+{% endblock content %}
+    
+    

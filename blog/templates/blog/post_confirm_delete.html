@@ -1,0 +1,22 @@
+{% extends 'base_master.html' %}
+
+{% block title %}
+    Delete {{post.title}}
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3">
+        <h1>Delete Post</h1>
+        <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            <h1>Are you sure want to delete the <span class="text-danger">"{{post.title}}"</span> post ?
+            <p>
+                <button type="submit" class="btn btn-danger">Yes, I am sure!</button>
+                <button type="button" class="btn btn-secondary"
+                    onclick = "window.location='{% url 'blog:post_list' %}'">No, take me back</button>
+            </p>
+        </form>
+    </div>
+{% endblock content %}
+    

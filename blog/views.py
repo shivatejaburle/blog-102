@@ -1,10 +1,10 @@
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from blog.models import Post
 from django.urls import reverse_lazy
-from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 # Show all the list of Posts
 class PostList(ListView):
@@ -28,16 +28,17 @@ class PostDetail(DetailView):
         return queryset
 
 # To Create a new Post
-class PostCreate(CreateView):
+class PostCreate(SuccessMessageMixin, CreateView):
     model = Post
     fields = ['title', 'content']
     http_method_names = ['get', 'post']
     context_object_name = 'form'
     template_name = 'blog/post_form.html'
     success_url = reverse_lazy('blog:post_list')
+    success_message = "Your post has been created successfully."
 
 # To Update the Post
-class PostUpdate(UpdateView):
+class PostUpdate(SuccessMessageMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
     http_method_names = ['get', 'post']
@@ -45,6 +46,7 @@ class PostUpdate(UpdateView):
     pk_url_kwarg = 'pk'
     template_name = 'blog/post_form.html'
     # success_url = reverse_lazy('blog:post_list')
+    success_message = "Your post has been updated successfully."
 
     #  Custom Query
     def get_queryset(self):
@@ -62,3 +64,17 @@ class PostUpdate(UpdateView):
     # Customize Success URL
     def get_success_url(self):
         return reverse_lazy('blog:post_detail', kwargs={'pk' : self.kwargs['pk']})
+
+# To Delete a Post
+class PostDelete(SuccessMessageMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:post_list')
+    http_method_names = ['get', 'post']
+    pk_url_kwarg = 'pk'
+    context_object_name = 'post'
+    template_name = 'blog/post_confirm_delete.html'
+    success_message = "Your post has been deleted successfully."
+
+    def get_queryset(self):
+        queryset = self.model.objects.filter(id=self.kwargs['pk'])
+        return queryset

@@ -20,6 +20,11 @@
         <!-- Navbar -->
         {% include 'includes/navbar.html' %}
 
+        <!-- Messages -->
+        <div class="container mt-3">
+            {% bootstrap_messages %}
+        </div>
+
         <!-- Content -->
         {% block content %}
             
@@ -27,5 +32,10 @@
         
         <!-- Bootstrap JS -->
         {% bootstrap_javascript %}
+
+        {% if messages %}
+            <!-- To alert close messages automatically -->
+            <script src="{% static 'home/js/closeMessages.js' %}"></script>
+        {% endif %}
     </body>
 </html>

@@ -2,6 +2,7 @@
     "cSpell.ignoreWords": [
         "allauth",
         "dotenv",
-        "socialaccount"
+        "socialaccount",
+        "sorl"
     ]
 }

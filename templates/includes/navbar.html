@@ -34,7 +34,7 @@
             {% if request.user.is_superuser %}
             <a class="btn btn-outline-light m-1" href="/admin" target="_blank">Django Administration</a>
             {% endif %}
-            <a class="btn btn-outline-light m-1" href="#">Manage Profile</a>
+            <a class="btn btn-outline-light m-1" href="{% url 'profiles:profile_detail' user.profiles.id %}">Manage Profile</a>
             <a class="btn btn-danger m-1" href="{% url 'account_logout' %}">Logout</a>
           {% else %}
             <a class="btn btn-outline-light m-1" href="{% url 'account_login' %}">Login</a>

@@ -1,3 +1,5 @@
+<!-- Template: https://mdbootstrap.com/docs/standard/extended/profiles/ -->
+
 {% extends 'base_master.html' %}
 {% load thumbnail %}
 
@@ -13,15 +15,34 @@
               <div class="card mb-4">
                 <div class="card-body text-center">
                     {% if profile.image %}
-                        {% thumbnail profile.image "205x205" crop="center" as im %}
-                            <img class="rounded-circle img-fluid" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{profile.user}}">
+                        {% thumbnail profile.image "230x230" crop="center" as im %}
+                            <img class="rounded-circle img-fluid border border-dark border-2" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{profile.user}}">
                         {% endthumbnail %}
                     {% else %}
-                        <img src="/media/profiles/no-picture.png" alt="{{profile.user}}" class="rounded-circle img-fluid" style="width: 245px;">
+                        <img src="/media/profiles/no-picture.png" alt="{{profile.user}}" class="rounded-circle img-fluid border border-dark border-2" style="width: 230px;">
                     {% endif %}
                   <h5 class="my-3">{{profile.first_name}} {{profile.last_name}}</h5>
                   <div class="d-flex justify-content-center mb-2">
                     <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Follow</button>
+                  </div>
+                  <div class="d-flex justify-content-center mb-2">
+                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary"
+                      onclick="window.location='{% url 'profiles:picture_update' profile.id %}'">
+                        {% if profile.image %}
+                          Change Picture
+                        {% else %}
+                          Upload Picture
+                        {% endif %}
+                    </button>
+                    
+                    {% if profile.image %}
+                        <button type="submit" data-mdb-button-init data-mdb-ripple-init 
+                          class="btn btn-outline-danger ms-1"
+                          onclick="window.location='{% url 'profiles:picture_delete' profile.id %}'">
+                          Remove Picture
+                        </button>
+                    {% endif %}
+                      
                   </div>
                 </div>
               </div>
@@ -80,6 +101,12 @@
                     </div>
                     <div class="col-sm-9">
                       <p class="text-muted mb-0">{{profile.address}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <a class="btn btn-outline-primary" href="{% url 'profiles:profile_update' profile.id %}">Update</a>
                     </div>
                   </div>
                 </div>

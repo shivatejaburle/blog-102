@@ -1,6 +1,7 @@
 {% extends 'base_master.html' %}
 {% load static %}
 {% load humanize %}
+{% load sorl_thumbnail %}
 
 {% block title %}
     Tech Blog - Posts
@@ -27,7 +28,14 @@
             <!-- Card Start -->
             <div class="col">
               <div class="card h-100">
-                <img src="{% static 'blog/img/no-image.png' %}" class="card-img-top" alt="no-image">
+                {% if post.image %}
+                  {% thumbnail post.image "400x256"  crop="center" as im %}
+                    <img class="card-img-top" alt="{{post.title}}"
+                      src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"">
+                  {% endthumbnail %}
+                {% else %}
+                  <img src="{% static 'blog/img/no-image.png' %}" class="card-img-top" alt="no-image">
+                {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">{{post.title}}</h5>
                   <p class="card-text">{{post.content|truncatechars:100}}</p>

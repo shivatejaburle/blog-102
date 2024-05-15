@@ -20,7 +20,13 @@
         </div>
         <hr>
         <div class="clearfix">
-            <img src="{% static 'blog/img/no-image.png' %}" class="img-fluid col-md-6 float-md-end mb-3 ms-md-3" alt="post-image">
+            {% if post.image %}
+                <img src="{{post.image.url}}" alt="post-image" 
+                    class="img-fluid col-md-6 float-md-end mb-3 ms-md-3">
+            {% else %}
+                <img src="{% static 'blog/img/no-image.png' %}" alt="post-image"
+                    class="img-fluid col-md-6 float-md-end mb-3 ms-md-3">
+            {% endif %}
             <p>{{post.content}}</p>
             <hr>
             <div class="row justify-content-between">

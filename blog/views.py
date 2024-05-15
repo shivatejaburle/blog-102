@@ -1,10 +1,12 @@
 from django.forms import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from blog.models import Post
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from blog.forms import PostForm
+from django.contrib import messages
 
 # Show all the list of Posts
 class PostList(ListView):
@@ -30,23 +32,40 @@ class PostDetail(DetailView):
 # To Create a new Post
 class PostCreate(SuccessMessageMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'image']
     http_method_names = ['get', 'post']
     context_object_name = 'form'
     template_name = 'blog/post_form.html'
     success_url = reverse_lazy('blog:post_list')
     success_message = "Your post has been created successfully."
-
+        
 # To Update the Post
 class PostUpdate(SuccessMessageMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    # fields = ['title', 'content']
+    form_class = PostForm
     http_method_names = ['get', 'post']
     context_object_name = 'form'
     pk_url_kwarg = 'pk'
     template_name = 'blog/post_form.html'
     # success_url = reverse_lazy('blog:post_list')
-    success_message = "Your post has been updated successfully."
+    # success_message = "Your post has been updated successfully."
+
+    # Update Post with Image
+    def post(self, request, *args, **kwargs):
+        post = get_object_or_404(self.model, id=self.kwargs['pk'])
+        if request.FILES:
+            post.image.delete() # To delete old image
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if not form.is_valid():
+            context = {
+                'form':form
+            }
+            return render(request, self.template_name, context)
+        
+        form.save()
+        messages.success(request, "Your post has been updated successfully.")
+        return redirect(self.get_success_url())
 
     #  Custom Query
     def get_queryset(self):

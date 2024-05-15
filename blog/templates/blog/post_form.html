@@ -15,9 +15,17 @@
         {% endif %}
         <hr>
 
-        <form action="" method="post">
+        <form class="mb-3" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
+            
+            <!-- To display existing Image while updating post -->
+            {% if form_type == 'Update' and form.image.value != "" %}
+                <div class="mb-3">
+                    <label class="form-label" for="current_image">Current Image</label><br/>
+                    <img src="/media/{{form.image.value}}" class="img-fluid" width="25%" alt="post-image">
+                </div>
+            {% endif %}
 
             <button type="submit" class="btn btn-primary">
                 {% if form_type == 'Update' %}

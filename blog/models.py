@@ -1,4 +1,5 @@
 from django.db import models
+from sorl.thumbnail import ImageField
 
 # Post Model
 class Post(models.Model):
@@ -6,6 +7,7 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    image = ImageField(upload_to='posts', blank=True)
 
     def __str__(self):
         return self.title[0:25]

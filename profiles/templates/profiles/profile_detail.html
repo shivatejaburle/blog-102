@@ -15,7 +15,7 @@
               <div class="card mb-4">
                 <div class="card-body text-center">
                     {% if profile.image %}
-                        {% thumbnail profile.image "230x230" crop="center" as im %}
+                        {% thumbnail profile.image "170x170" crop="center" as im %}
                             <img class="rounded-circle img-fluid border border-dark border-2" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{profile.user}}">
                         {% endthumbnail %}
                     {% else %}
@@ -44,7 +44,19 @@
                     {% endif %}
                       
                   </div>
+                  
                 </div>
+              </div>
+              <div class="d-flex justify-content-center mb-2">
+                <button type="button" class="btn btn-outline-secondary"
+                  onclick="window.location='{% url 'account_change_password' %}'">
+                    Change Your Password
+                </button>
+                
+                <button type="submit" class="btn btn-outline-secondary ms-1"
+                  onclick="window.location='#'">
+                    Change Email Address
+                </button>
               </div>
             </div>
             <div class="col-lg-8">

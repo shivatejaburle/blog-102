@@ -158,6 +158,7 @@ ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 2
+ACCOUNT_CHANGE_EMAIL = True
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',

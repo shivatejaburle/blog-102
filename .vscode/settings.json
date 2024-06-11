@@ -5,9 +5,13 @@
         "emailaddress",
         "emailaddresses",
         "endelement",
+        "endsetvar",
         "endslot",
         "endthumbnail",
+        "reauthentication",
+        "setvar",
         "socialaccount",
-        "sorl"
+        "sorl",
+        "totp"
     ]
 }

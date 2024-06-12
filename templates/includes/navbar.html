@@ -32,9 +32,20 @@
         <li class="nav-item">
           {% if request.user.is_authenticated %}
             {% if request.user.is_superuser %}
-            <a class="btn btn-outline-light m-1" href="/admin" target="_blank">Django Administration</a>
+              <a class="btn btn-outline-light m-1" href="/admin" target="_blank">Django Administration</a>
             {% endif %}
-            <a class="btn btn-outline-light m-1" href="{% url 'profiles:profile_detail' user.profiles.id %}">Manage Profile</a>
+            <div class="btn-group">
+              <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                Manage Account
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profiles.id %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_email' %}">Change Email Address</a></li>
+                <li><a class="dropdown-item" href="/accounts/2fa">Two-Factor Authentication</a></li>
+                <li><a class="dropdown-item" href="/accounts/sessions">Sessions</a></li>
+              </ul>
+            </div>
             <a class="btn btn-danger m-1" href="{% url 'account_logout' %}">Logout</a>
           {% else %}
             <a class="btn btn-outline-light m-1" href="{% url 'account_login' %}">Login</a>

@@ -12,6 +12,7 @@
         "setvar",
         "socialaccount",
         "sorl",
-        "totp"
+        "totp",
+        "usersessions"
     ]
 }

@@ -35,7 +35,23 @@ class PostCreate(SuccessMessageMixin, CreateView):
     context_object_name = 'form'
     template_name = 'blog/post_form.html'
     success_url = reverse_lazy('blog:post_list')
-    success_message = "Your post has been created successfully."
+    # success_message = "Your post has been created successfully."
+
+    def post(self, request, *args, **kwargs):
+        form = PostForm(request.POST, request.FILES)
+        if not form.is_valid():
+            context = {
+                'form':form
+            }
+            return render(request, self.template_name, context)
+        
+        # Add the owner of the record
+        obj = form.save(commit = False)
+        obj.owner = self.request.user
+        obj.save()
+
+        messages.success(request, "Department was successfully created.")
+        return redirect(self.success_url)
         
 # To Update the Post
 class PostUpdate(SuccessMessageMixin, UpdateView):
@@ -52,17 +68,20 @@ class PostUpdate(SuccessMessageMixin, UpdateView):
     # Update Post with Image
     def post(self, request, *args, **kwargs):
         post = get_object_or_404(self.model, id=self.kwargs['pk'])
-        if request.FILES:
-            post.image.delete() # To delete old image
-        form = PostForm(request.POST, request.FILES, instance=post)
-        if not form.is_valid():
-            context = {
-                'form':form
-            }
-            return render(request, self.template_name, context)
-        
-        form.save()
-        messages.success(request, "Your post has been updated successfully.")
+        if post.owner == self.request.user:
+            if request.FILES:
+                post.image.delete() # To delete old image
+            form = PostForm(request.POST, request.FILES, instance=post)
+            if not form.is_valid():
+                context = {
+                    'form':form
+                }
+                return render(request, self.template_name, context)
+
+            form.save()
+            messages.success(request, "Your post has been updated successfully.")
+        else:
+            messages.error(request, "Your are not an author of the post.")
         return redirect(self.get_success_url())
 
     #  Custom Query
@@ -95,3 +114,14 @@ class PostDelete(SuccessMessageMixin, DeleteView):
     def get_queryset(self):
         queryset = self.model.objects.filter(id=self.kwargs['pk'])
         return queryset
+    
+    # Delete Post with Image
+    def post(self, request, *args, **kwargs):
+        post = get_object_or_404(self.model, id=self.kwargs['pk'])
+        if post.owner == self.request.user:
+            post.image.delete() # To delete old image
+            post.delete()
+            messages.success(request, "Your post has been deleted successfully.")
+        else:
+            messages.error(request, "Your are not an author of the post.")
+        return redirect(self.success_url)

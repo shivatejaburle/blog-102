@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from blog.models import Post
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from blog.forms import PostForm
 from django.contrib import messages
 
@@ -28,7 +29,7 @@ class PostDetail(DetailView):
         return queryset
 
 # To Create a new Post
-class PostCreate(SuccessMessageMixin, CreateView):
+class PostCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Post
     fields = ['title', 'content', 'image']
     http_method_names = ['get', 'post']
@@ -54,7 +55,7 @@ class PostCreate(SuccessMessageMixin, CreateView):
         return redirect(self.success_url)
         
 # To Update the Post
-class PostUpdate(SuccessMessageMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Post
     # fields = ['title', 'content']
     form_class = PostForm
@@ -102,14 +103,14 @@ class PostUpdate(SuccessMessageMixin, UpdateView):
         return reverse_lazy('blog:post_detail', kwargs={'pk' : self.kwargs['pk']})
 
 # To Delete a Post
-class PostDelete(SuccessMessageMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:post_list')
     http_method_names = ['get', 'post']
     pk_url_kwarg = 'pk'
     context_object_name = 'post'
     template_name = 'blog/post_confirm_delete.html'
-    success_message = "Your post has been deleted successfully."
+    # success_message = "Your post has been deleted successfully."
 
     def get_queryset(self):
         queryset = self.model.objects.filter(id=self.kwargs['pk'])

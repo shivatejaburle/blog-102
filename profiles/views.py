@@ -4,6 +4,7 @@ from django.views.generic import DetailView, UpdateView
 from profiles.models import Profile
 from django.contrib.auth.models import User
 import os
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # User Profile Detail View
 class UserProfile(DetailView):
@@ -18,7 +19,7 @@ class UserProfile(DetailView):
     #     return queryset
 
 # Update User Profile
-class UpdateUserProfile(UpdateView):
+class UpdateUserProfile(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ['first_name','last_name', 'mobile', 'address']
 

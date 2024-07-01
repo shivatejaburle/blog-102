@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-)2&c^t0z9e!5_1wx9yr@67t9y7k2ad=xpqh^6)nyyd41*vo37l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     'sorl.thumbnail',
     'profiles.apps.ProfilesConfig',
+    'followers.apps.FollowersConfig',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'allauth.usersessions.middleware.UserSessionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -138,6 +140,8 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+STATIC_ROOT = BASE_DIR / 'production'
 
 STATIC_URL = 'static/'
 

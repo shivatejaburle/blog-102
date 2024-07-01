@@ -9,5 +9,7 @@ urlpatterns = [
     # Update Profile Picture
     path("update/picture/<int:pk>", views.UpdateProfilePicture, name = 'picture_update'),
     # Delete Profile Picture
-    path("delete/picture/<int:pk>", views.DeleteProfilePicture, name = 'picture_delete')
+    path("delete/picture/<int:pk>", views.DeleteProfilePicture, name = 'picture_delete'),
+    # For Followers
+    path('detail/<int:pk>/follow/', views.FollowView.as_view(), name = 'follow'),
 ]

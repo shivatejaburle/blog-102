@@ -1,0 +1,168 @@
+<!-- Template: https://mdbootstrap.com/docs/standard/extended/profiles/ -->
+
+{% extends 'base_master.html' %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}
+    {% if not user.is_authenticated or profile.user != user %}
+      {{profile.first_name}}'s Profile
+    {% else %}          
+      Edit User Profile
+    {% endif %}
+{% endblock title %}
+
+{% block content %}
+    <section>
+        <div class="container">
+
+          {% if not user.is_authenticated or profile.user != user %}
+            <h1>{{profile.first_name}}'s Profile</h1>
+          {% else %}          
+            <h1>Edit User Profile</h1>
+          {% endif %}
+        
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                    {% if profile.image %}
+                        {% thumbnail profile.image "200x200" crop="center" as im %}
+                            <img class="rounded-circle img-fluid border border-dark border-2" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{profile.user}}">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="/media/profiles/no-picture.png" alt="{{profile.user}}" class="rounded-circle img-fluid border border-dark border-2" style="width: 230px;">
+                    {% endif %}
+                    
+                    <h5 class="my-3">{{profile.first_name}} {{profile.last_name}}</h5>
+                  
+                    <div class="d-flex justify-content-center pb-3">
+                      <div class="text-center mr-3 border-end p-2">
+                          <h2>{{total_posts}}</h2>
+                          <span>Posts</span>
+                      </div>
+                      <div class="text-center mr-3 border-start p-2">
+                          <h2>{{total_followers}}</h2>
+                          <span>Followers</span>
+                      </div>
+                    </div>
+                  
+                  {% if user.is_authenticated %}
+                    {% if profile.user != user %}
+                      <div class="d-flex justify-content-center mb-2">
+                        <button type="button" 
+                          class="js-follow btn {% if you_follow %}btn-danger{% else %}btn-primary{% endif %}" 
+                          data-id="{{profile.user.id}}" data-action="{% if you_follow %}un-{% endif %}follow"
+                          data-url="{% url 'profiles:follow' profile.user.id %}">
+                          <span>
+                            {% if you_follow %}
+                              Unfollow
+                            {% else %}
+                              Follow
+                            {% endif %}
+                          </span>
+                        </button>
+                      </div>
+                    {% else %}
+                      <div class="d-flex justify-content-center mb-2">
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary"
+                          onclick="window.location='{% url 'profiles:picture_update' profile.id %}'">
+                            {% if profile.image %}
+                              Change Picture
+                            {% else %}
+                              Upload Picture
+                            {% endif %}
+                        </button>
+                        {% if profile.image %}
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init 
+                              class="btn btn-outline-danger ms-1"
+                              onclick="window.location='{% url 'profiles:picture_delete' profile.id %}'">
+                              Remove Picture
+                            </button>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  {% else %}
+                    <div class="d-flex justify-content-center mb-2">
+                      <a class="btn btn-outline-dark m-1" href="{% url 'account_login' %}">Login to Follow</a>
+                    </div>
+                  {% endif %}
+                  
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">First Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{profile.first_name}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Last Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{profile.last_name}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  {% if user.is_authenticated and profile.user == user %}
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Username</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{profile.user.username}}</p>
+                      </div>
+                    </div>
+                    <hr>
+                  {% endif %}
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{profile.user.email}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Mobile</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{profile.mobile}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Address</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{profile.address}}</p>
+                    </div>
+                  </div>
+                  {% if user.is_authenticated and profile.user == user %}
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <a class="btn btn-outline-primary" href="{% url 'profiles:profile_update' profile.id %}">Update</a>
+                      </div>
+                  {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+   
+{% endblock content %}

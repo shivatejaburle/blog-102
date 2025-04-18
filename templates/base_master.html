@@ -1,0 +1,47 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+                
+            {% endblock title %}
+        </title>
+        <link rel="shortcut icon" href="{% static 'home/img/favicon.ico' %}" type="image/x-icon">
+        <!-- Bootstrap CSS -->
+        {% bootstrap_css %}
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        {% include 'includes/navbar.html' %}
+
+        <!-- Messages -->
+        <div class="container mt-3">
+            {% bootstrap_messages %}
+        </div>
+
+        <!-- Content -->
+        {% block content %}
+            
+        {% endblock content %}
+        
+        <!-- Bootstrap JS -->
+        {% bootstrap_javascript %}
+
+        {% if messages %}
+            <!-- To alert close messages automatically -->
+            <script src="{% static 'home/js/closeMessages.js' %}"></script>
+        {% endif %}
+
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+        <!-- custom JS -->
+        <script src="{% static 'home/js/main.js' %}"></script>
+    </body>
+</html>

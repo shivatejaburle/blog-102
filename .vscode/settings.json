@@ -1,0 +1,23 @@
+{
+    "cSpell.ignoreWords": [
+        "Unfollow",
+        "allauth",
+        "collectstatic",
+        "dotenv",
+        "emailaddress",
+        "emailaddresses",
+        "endelement",
+        "endsetvar",
+        "endslot",
+        "endthumbnail",
+        "reauthentication",
+        "runserver",
+        "setvar",
+        "socialaccount",
+        "sorl",
+        "testuser",
+        "totp",
+        "usersessions",
+        "venv"
+    ]
+}

@@ -1,0 +1,63 @@
+{% extends 'base_master.html' %}
+{% load humanize %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}
+    {{post.title}}
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3 mb-3">
+        <div class="row justify-content-between">
+            <div class="col-sm-12 col-md-8">
+              <h1>{{post.title}}</h1>
+            </div>
+            <div class="d-none d-sm-block col-md-4">
+                <div class="alert alert-info text-center" role="alert">
+                    Last updated {{post.updated_at|naturaltime}}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="clearfix">
+            {% if post.image %}
+                <img src="{{post.image.url}}" alt="post-image" 
+                    class="img-fluid col-md-6 float-md-end mb-3 ms-md-3">
+            {% else %}
+                <img src="{% static 'blog/img/no-image.png' %}" alt="post-image"
+                    class="img-fluid col-md-6 float-md-end mb-3 ms-md-3">
+            {% endif %}
+            <p>{{post.content}}</p>
+            <hr>
+            <div class="row justify-content-between">
+                <div class="col-sm-12 col-md-6">
+                    <p><span class="fw-bold">Author:</span>
+                        <a href="{% url 'profiles:profile_detail' post.owner.profiles.id %}" style="text-decoration: none;">
+                            {% if post.owner.profiles.image %}
+                              {% thumbnail post.owner.profiles.image "30x30" crop="center" as im %}
+                                <img class="img-thumbnail rounded-circle" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{post.owner}}">
+                              {% endthumbnail %}
+                            {% else %}
+                              <img class="img-thumbnail rounded-circle" src="/media/profiles/no-picture.png"  width="30" height="30" alt="{{post.owner}}">
+                            {% endif %}
+                            {{post.owner.profiles.first_name}} {{post.owner.profiles.last_name}}              
+                        </a>
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p><span class="fw-bold">Post created on:</span> {{post.created_at|date}}</p>
+                </div>
+            </div>
+            <hr>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-outline-primary"><i class="bi bi-back"></i> Back</a>
+            {% if user.is_authenticated %}
+                {% if post.owner == user %}
+                    <a href="{% url 'blog:post_update' post.id %}" class="btn btn-outline-secondary"><i class="bi bi-pencil-square"></i> Update</a>
+                    <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-outline-danger"><i class="bi bi-trash3"></i> Delete</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
+    

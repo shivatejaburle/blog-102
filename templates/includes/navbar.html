@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home:index' %}">Tech Blog</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample03">
+      <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home:index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog:post_list' %}">Blog</a>
+        </li>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog:my_post_list' %}">My Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'followers:followers_list' request.user %}">My Followers</a>
+          </li>
+        {% endif %}
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="{% url 'blog:post_list' %}">Blog Posts</a></li>
+            <li><a class="dropdown-item" href="#">Create Post</a></li>
+          </ul>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+      <hr class="text-light">
+      <ul class="navbar-nav mb-2 mb-sm-0">
+        <li class="nav-item dropdown">
+          {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+              <a class="btn btn-outline-light m-1" href="/admin" target="_blank">Django Administration</a>
+            {% endif %}
+            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">Manage Account</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'profiles:profile_detail' user.profiles.id %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_email' %}">Change Email Address</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/accounts/2fa">Two-Factor Authentication</a></li>
+                <li><a class="dropdown-item" href="/accounts/sessions">Sessions</a></li>
+            </ul>
+            <a class="btn btn-danger m-1" href="{% url 'account_logout' %}">Logout</a>
+          {% else %}
+            <a class="btn btn-outline-light m-1" href="{% url 'account_login' %}">Login</a>
+            <a class="btn btn-warning m-1" href="{% url 'account_signup' %}">Sign Up</a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

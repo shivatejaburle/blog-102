@@ -84,7 +84,7 @@ Your application will be available @ http://127.0.0.1:8000/
 ![AuthorProfile](screenshots/10-Author-Profile.jpg)
 ![ChangePassword](screenshots/11-change-password.jpg)
 ![ManageEmail](screenshots/12-add-or-remove-email.jpg)
-![Manage-2FA](screenshots/13-Managge-2FA.jpg)
+![Manage-2FA](screenshots/13-Manage-2FA.jpg)
 ![LoginSessions](screenshots/14-login-sessions.jpg)
 ### Mobile View
 &emsp;![Home Page](screenshots/M1-Home.png)&emsp;&emsp;&emsp;![Posts](screenshots/M2-Posts.png)

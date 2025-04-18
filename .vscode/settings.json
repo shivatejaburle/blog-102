@@ -10,14 +10,20 @@
         "endsetvar",
         "endslot",
         "endthumbnail",
+        "mysite",
+        "nyyd",
         "reauthentication",
         "runserver",
         "setvar",
         "socialaccount",
         "sorl",
+        "staticfiles",
         "testuser",
         "totp",
         "usersessions",
-        "venv"
+        "venv",
+        "vercel",
+        "wsgi",
+        "xpqh"
     ]
 }

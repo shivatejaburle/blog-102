@@ -1,5 +1,6 @@
 {% extends 'base_master.html' %}
 {% load sorl_thumbnail %}
+{% load static %}
 
 {% block title %}
     Followers
@@ -14,9 +15,6 @@
                 <p>
                     <a href="{% url 'profiles:profile_detail' x.followed_by.profiles.id %}" style="text-decoration: none;color:black;">
                         {% if x.followed_by.profiles.image %}
-                            {% comment %} {% thumbnail x.followed_by.profiles.image "100x100" crop="center" as im %}
-                                <img class="img-thumbnail rounded-circle" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{x.followed_by.profiles.first_name}}">
-                            {% endthumbnail %} {% endcomment %}
                             <img class="img-thumbnail rounded-circle" src="{{ x.followed_by.profiles.image.url }}" width="100" height="100" alt="{{x.followed_by.profiles.first_name}}">
                         {% else %}
                             <img class="img-thumbnail rounded-circle" src="{% static 'profiles/img/no-picture.png' %}"  width="100" height="100" alt="{{x.followed_by.profiles.first_name}}">

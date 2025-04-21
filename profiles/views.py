@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from blog.models import Post
 from followers.models import Follower
 from django.http import JsonResponse, HttpResponseBadRequest
+import cloudinary.uploader
 
 # User Profile Detail View
 class UserProfile(DetailView):
@@ -46,7 +47,8 @@ def UpdateProfilePicture(request, pk):
     if request.method == "POST":
         if len(request.FILES) != 0:
             if profile.image:
-                os.remove(profile.image.path)
+                cloudinary.uploader.destroy(str(profile.image), resource_type = "image")
+                # os.remove(profile.image.path)
             profile.image = request.FILES['image_document']
         profile.save()
         success_url = '/profile/detail/' + str(profile.id)
@@ -57,7 +59,9 @@ def UpdateProfilePicture(request, pk):
 # Remove Profile Picture
 def DeleteProfilePicture(request, pk):
     profile = Profile.objects.get(id=pk)
-    os.remove(profile.image.path)
+    # os.remove(profile.image.path)
+    cloudinary.uploader.destroy(str(profile.image), resource_type = "image")
+    print(profile.image)
     profile.image=""
     profile.save()
     success_url = '/profile/detail/' + str(profile.id)

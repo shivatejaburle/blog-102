@@ -1,6 +1,7 @@
 from django.db import models
 from sorl.thumbnail import ImageField
 from django.conf import settings
+from cloudinary.models import CloudinaryField
 
 # Post Model
 class Post(models.Model):
@@ -8,7 +9,8 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = ImageField(upload_to='posts', blank=True)
+    # image = ImageField(upload_to='posts', blank=True)
+    image = CloudinaryField('image')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):

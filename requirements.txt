@@ -2,6 +2,7 @@ asgiref==3.8.1
 certifi==2024.2.2
 cffi==1.16.0
 charset-normalizer==3.3.2
+cloudinary==1.44.0
 colorama==0.4.6
 cryptography==42.0.5
 defusedxml==0.7.1
@@ -22,6 +23,7 @@ python3-openid==3.2.0
 qrcode==7.4.2
 requests==2.31.0
 requests-oauthlib==2.0.0
+six==1.17.0
 sorl-thumbnail==12.10.0
 sqlparse==0.4.4
 typing_extensions==4.12.1

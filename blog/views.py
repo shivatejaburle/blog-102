@@ -6,6 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from blog.forms import PostForm
 from django.contrib import messages
+import cloudinary.uploader
 
 # Show all the list of Posts
 class PostList(ListView):
@@ -51,7 +52,7 @@ class PostCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         obj.owner = self.request.user
         obj.save()
 
-        messages.success(request, "Department was successfully created.")
+        messages.success(request, "Your post has been created successfully.")
         return redirect(self.success_url)
         
 # To Update the Post
@@ -71,7 +72,10 @@ class PostUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         post = get_object_or_404(self.model, id=self.kwargs['pk'])
         if post.owner == self.request.user:
             if request.FILES:
-                post.image.delete() # To delete old image
+                # post.image.delete() # To delete old image
+                cloudinary.uploader.destroy(str(post.image), resource_type = "image")
+                
+                
             form = PostForm(request.POST, request.FILES, instance=post)
             if not form.is_valid():
                 context = {
@@ -120,7 +124,8 @@ class PostDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         post = get_object_or_404(self.model, id=self.kwargs['pk'])
         if post.owner == self.request.user:
-            post.image.delete() # To delete old image
+            # post.image.delete() # To delete old image
+            cloudinary.uploader.destroy(str(post.image), resource_type = "image")
             post.delete()
             messages.success(request, "Your post has been deleted successfully.")
         else:

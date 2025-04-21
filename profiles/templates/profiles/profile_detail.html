@@ -27,11 +27,12 @@
               <div class="card mb-4">
                 <div class="card-body text-center">
                     {% if profile.image %}
-                        {% thumbnail profile.image "200x200" crop="center" as im %}
+                        {% comment %} {% thumbnail profile.image "200x200" crop="center" as im %}
                             <img class="rounded-circle img-fluid border border-dark border-2" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{profile.user}}">
-                        {% endthumbnail %}
+                        {% endthumbnail %} {% endcomment %}
+                        <img class="rounded-circle img-fluid border border-dark border-2" src="{{ profile.image.url }}" width="200" height="200" alt="{{profile.user}}">
                     {% else %}
-                        <img src="/media/profiles/no-picture.png" alt="{{profile.user}}" class="rounded-circle img-fluid border border-dark border-2" style="width: 230px;">
+                        <img src="{% static 'profiles/img/no-picture.png' %}" alt="{{profile.user}}" class="rounded-circle img-fluid border border-dark border-2" style="width: 230px;">
                     {% endif %}
                     
                     <h5 class="my-3">{{profile.first_name}} {{profile.last_name}}</h5>

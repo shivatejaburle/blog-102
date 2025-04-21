@@ -35,11 +35,12 @@
                     <p><span class="fw-bold">Author:</span>
                         <a href="{% url 'profiles:profile_detail' post.owner.profiles.id %}" style="text-decoration: none;">
                             {% if post.owner.profiles.image %}
-                              {% thumbnail post.owner.profiles.image "30x30" crop="center" as im %}
+                              {% comment %} {% thumbnail post.owner.profiles.image "30x30" crop="center" as im %}
                                 <img class="img-thumbnail rounded-circle" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{post.owner}}">
-                              {% endthumbnail %}
+                              {% endthumbnail %} {% endcomment %}
+                              <img class="img-thumbnail rounded-circle" src="{{ post.owner.profiles.image.url }}" width="30" height="30" alt="{{post.owner}}">
                             {% else %}
-                              <img class="img-thumbnail rounded-circle" src="/media/profiles/no-picture.png"  width="30" height="30" alt="{{post.owner}}">
+                              <img class="img-thumbnail rounded-circle" src="{% static 'profiles/img/no-picture.png' %}"  width="30" height="30" alt="{{post.owner}}">
                             {% endif %}
                             {{post.owner.profiles.first_name}} {{post.owner.profiles.last_name}}              
                         </a>
